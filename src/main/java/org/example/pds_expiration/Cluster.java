@@ -1,10 +1,11 @@
-package org.example;
+package org.example.pds_expiration;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.*;
+import org.apache.ignite.events.EventType;
 import org.apache.ignite.spi.discovery.DiscoverySpi;
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi;
 import org.apache.ignite.spi.discovery.tcp.ipfinder.TcpDiscoveryIpFinder;
@@ -20,7 +21,8 @@ public class Cluster {
     public static final String CACHE = "test";
 
     public static Ignite ignite(String id, boolean client) {
-        return Ignition.start(igniteConfiguration(id, client));
+        Ignite ignite = Ignition.start(igniteConfiguration(id, client));
+        return ignite;
     }
 
     private static IgniteConfiguration igniteConfiguration(String id, boolean client) {
@@ -29,7 +31,10 @@ public class Cluster {
                .setClientMode(client)
                .setDiscoverySpi(discoverySpi())
                .setDataStorageConfiguration(dataStorageConfiguration())
-               .setCacheConfiguration((cacheConfiguration()));
+               .setCacheConfiguration((cacheConfiguration()))
+               .setIncludeEventTypes(EventType.EVT_CACHE_OBJECT_PUT)
+               .setDeploymentMode(DeploymentMode.CONTINUOUS)
+               .setPeerClassLoadingMissedResourcesCacheSize(0);
     }
 
     private static DiscoverySpi discoverySpi() {
@@ -64,7 +69,7 @@ public class Cluster {
     private static DataRegionConfiguration dataRegionConfiguration() {
         return new DataRegionConfiguration()
                 .setName("test")
-                .setPersistenceEnabled(true)
+//                .setPersistenceEnabled(true)
                 .setMetricsEnabled(true);
     }
 }
