@@ -34,26 +34,26 @@
             </bean>
         </property>
 
-        <property name="communicationSpi">
-            <bean class="org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi">
-                <property name="localPort" value="47101"/>
-                <property name="localPortRange" value="0"/>
-            </bean>
-        </property>
+<!--        <property name="communicationSpi">-->
+<!--            <bean class="org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi">-->
+<!--                <property name="localPort" value="47101"/>-->
+<!--                <property name="localPortRange" value="0"/>-->
+<!--            </bean>-->
+<!--        </property>-->
 
-        <property name="discoverySpi">
-            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
-                <property name="ipFinder">
-                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
-                        <property name="addresses">
-                            <list>
-                                <value>127.0.0.1:47500..47509</value>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
-        </property>
+<!--        <property name="discoverySpi">-->
+<!--            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">-->
+<!--                <property name="ipFinder">-->
+<!--                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">-->
+<!--                        <property name="addresses">-->
+<!--                            <list>-->
+<!--                                <value>127.0.0.1:47500..47509</value>-->
+<!--                            </list>-->
+<!--                        </property>-->
+<!--                    </bean>-->
+<!--                </property>-->
+<!--            </bean>-->
+<!--        </property>-->
 
     </bean>
 

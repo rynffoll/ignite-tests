@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="ignite.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
+
+        <property name="igniteInstanceName" value="server"/>
+        <property name="consistentId" value="server"/>
+        <property name="userAttributes">
+            <map>
+                <entry key="dc" value="local"/>
+                <entry key="cell" value="cell-1"/>
+            </map>
+        </property>
+
+        <property name="peerClassLoadingEnabled" value="true"/>
+
+<!--        <property name="workDirectory" value="{{ gridgain_work_dir }}"/>-->
+
+        <property name="metricsLogFrequency" value="0"/>
+
+        <property name="rebalanceThreadPoolSize" value="4"/>
+        <property name="rebalanceBatchesPrefetchCount" value="4"/>
+        <property name="rebalanceBatchSize" value="#{ 1L * 1024 * 1024 }"/>
+
+        <!-- https://www.gridgain.com/docs/latest/developers-guide/memory-configuration/memory-quotas -->
+        <property name="sqlConfiguration">
+            <bean class="org.apache.ignite.configuration.SqlConfiguration">
+                <property name="sqlGlobalMemoryQuota" value="40%"/>
+            </bean>
+        </property>
+
+        <property name="transactionConfiguration">
+            <bean class="org.apache.ignite.configuration.TransactionConfiguration">
+                <property name="defaultTxTimeout" value="#{ 10L * 1000 }"/>
+                <property name="txTimeoutOnPartitionMapExchange" value="#{ 10L * 1000 }"/>
+            </bean>
+        </property>
+
+        <property name="dataStorageConfiguration">
+            <bean class="org.apache.ignite.configuration.DataStorageConfiguration">
+                <property name="defaultDataRegionConfiguration">
+                    <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
+                        <property name="name" value="Memory Region"/>
+                        <property name="maxSize" value="#{ 1L * 1024 * 1024 * 1024 }"/>
+
+                        <property name="persistenceEnabled" value="false"/>
+                        <property name="metricsEnabled" value="true"/>
+                    </bean>
+                </property>
+                <!--                <property name="dataRegionConfigurations">-->
+                <!--                    <list>-->
+                <!--                        <bean class="org.apache.ignite.configuration.DataRegionConfiguration">-->
+                <!--                            <property name="name" value="{{ gridgain_persistence_region.name }}"/>-->
+                <!--                            <property name="maxSize" value="#{ {{ gridgain_persistence_region.mem_max_size }} }"/>-->
+                <!--                            <property name="checkpointPageBufferSize" value="#{ 2L * 1024 * 1024 * 1024 }"/>-->
+
+                <!--                            <property name="persistenceEnabled" value="true"/>-->
+                <!--                            <property name="metricsEnabled" value="true"/>-->
+                <!--                        </bean>-->
+                <!--                    </list>-->
+                <!--                </property>-->
+                <!--                <property name="walMode" value="LOG_ONLY"/>-->
+                <!--                <property name="walSegmentSize" value="#{ 256L * 1024 * 1024 }"/>-->
+                <!--                <property name="walCompactionEnabled" value="true"/>-->
+                <!--                <property name="writeThrottlingEnabled" value="true"/>-->
+                <property name="metricsEnabled" value="true"/>
+            </bean>
+        </property>
+
+        <property name="communicationSpi">
+            <bean class="org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi">
+                <!--                https://www.gridgain.com/docs/latest/developers-guide/clustering/running-client-nodes-behind-nat#limitations-->
+                <property name="usePairedConnections" value="false"/>
+                <property name="connectionsPerNode" value="10"/>
+            </bean>
+        </property>
+
+        <!--        <property name="discoverySpi">-->
+        <!--            <bean class="org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi">-->
+        <!--                <property name="zkConnectionString" value="{{ gridgain_zkConnectionString }}"/>-->
+        <!--                <property name="sessionTimeout" value="{{ gridgain_zkSessionTimeout }}"/>-->
+        <!--                <property name="zkRootPath" value="{{ gridgain_zkRootPath }}"/>-->
+        <!--                <property name="joinTimeout" value="{{ gridgain_zkJoinTimeout }}"/>-->
+        <!--            </bean>-->
+        <!--        </property>-->
+
+        <property name="metricsUpdateFrequency" value="1000"/>
+
+        <property name="metricExporterSpi">
+            <list>
+                <bean class="org.apache.ignite.spi.metric.jmx.JmxMetricExporterSpi">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
