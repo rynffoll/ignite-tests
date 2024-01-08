@@ -9,11 +9,13 @@
     <properties>
         <java.version>8</java.version>
 
-        <!--<ignite.groupId>org.apache.ignite</ignite.groupId>-->
-        <!--<ignite.version>2.13.0</ignite.version>-->
+        <ignite.groupId>org.apache.ignite</ignite.groupId>
+        <ignite.version>2.15.0</ignite.version>
+<!--        <ignite.version>2.16.0</ignite.version>-->
 
-        <ignite.groupId>org.gridgain</ignite.groupId>
-        <ignite.version>8.8.20</ignite.version>
+<!--        <ignite.groupId>org.gridgain</ignite.groupId>-->
+<!--        <ignite.version>8.8.20</ignite.version>-->
+<!--        <ignite.version>8.8.35</ignite.version>-->
 
         <lombok.version>1.18.20</lombok.version>
     </properties>
@@ -47,6 +49,18 @@
             <artifactId>ignite-opencensus</artifactId>
             <version>${ignite.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>${ignite.groupId}</groupId>
+            <artifactId>ignite-indexing</artifactId>
+            <version>${ignite.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${ignite.groupId}</groupId>
+            <artifactId>ignite-calcite</artifactId>
+            <version>${ignite.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.slf4j</groupId>
